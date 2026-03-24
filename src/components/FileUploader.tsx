@@ -67,36 +67,32 @@ export default function FileUploader({ onDataLoaded }: FileUploaderProps) {
   return (
     <div
       {...getRootProps()}
-      className={`border-2 border-dashed rounded-lg p-12 text-center cursor-pointer transition-all
+      className={`border-2 border-dashed rounded-lg p-6 sm:p-12 text-center cursor-pointer transition-all
         ${isDragActive 
-          ? 'border-blue-500 bg-blue-50 scale-105' 
-          : 'border-gray-300 bg-white hover:border-gray-400 hover:bg-gray-50'}`}
+          ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 scale-[1.02]' 
+          : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 hover:border-gray-400 dark:hover:border-gray-500'}`}
     >
       <input {...getInputProps()} />
       
-      <div className="flex flex-col items-center gap-4">
-        {isDragActive ? (
-          <Upload className="h-16 w-16 text-blue-500 animate-bounce" />
-        ) : (
-          <Upload className="h-16 w-16 text-gray-400" />
-        )}
+      <div className="flex flex-col items-center gap-3 sm:gap-4">
+        <Upload className={`h-12 w-12 sm:h-16 sm:w-16 ${isDragActive ? 'text-blue-500 animate-bounce' : 'text-gray-400'}`} />
         
-        <div className="space-y-2">
-          <p className="text-xl font-semibold text-gray-700">
+        <div className="space-y-1 sm:space-y-2">
+          <p className="text-base sm:text-xl font-semibold text-gray-700 dark:text-gray-300">
             {isDragActive ? 'Dosyayı bırakın' : 'CSV veya Excel dosyası yükleyin'}
           </p>
-          <p className="text-sm text-gray-500">
+          <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
             Sürükleyip bırakın veya tıklayarak seçin
           </p>
         </div>
         
-        <div className="flex gap-4 text-sm text-gray-400">
+        <div className="flex gap-3 sm:gap-4 text-xs sm:text-sm text-gray-400 dark:text-gray-500">
           <div className="flex items-center gap-1">
-            <FileText className="h-4 w-4" />
+            <FileText className="h-3 w-3 sm:h-4 sm:w-4" />
             <span>.csv</span>
           </div>
           <div className="flex items-center gap-1">
-            <FileSpreadsheet className="h-4 w-4" />
+            <FileSpreadsheet className="h-3 w-3 sm:h-4 sm:w-4" />
             <span>.xlsx, .xls</span>
           </div>
         </div>

@@ -16,30 +16,30 @@ interface ExportButtonsProps {
 
 export default function ExportButtons({ data, stats, filename }: ExportButtonsProps) {
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-1 sm:gap-2">
       <button
         onClick={() => exportToCSV(data, filename)}
-        className="flex items-center gap-2 px-3 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-colors text-sm"
+        className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-1.5 sm:py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-colors text-xs sm:text-sm"
         title="CSV olarak dışa aktar"
       >
-        <FileText className="h-4 w-4" />
-        <span>CSV</span>
+        <FileText className="h-3 w-3 sm:h-4 sm:w-4" />
+        <span className="hidden xs:inline">CSV</span>
       </button>
       <button
         onClick={() => exportToExcel(data, filename)}
-        className="flex items-center gap-2 px-3 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors text-sm"
+        className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-1.5 sm:py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors text-xs sm:text-sm"
         title="Excel olarak dışa aktar"
       >
-        <FileSpreadsheet className="h-4 w-4" />
-        <span>Excel</span>
+        <FileSpreadsheet className="h-3 w-3 sm:h-4 sm:w-4" />
+        <span className="hidden xs:inline">Excel</span>
       </button>
       <button
         onClick={() => exportToPDF(data, filename, stats)}
-        className="flex items-center gap-2 px-3 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors text-sm"
+        className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-1.5 sm:py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors text-xs sm:text-sm"
         title="PDF olarak dışa aktar"
       >
-        <FileJson className="h-4 w-4" />
-        <span>PDF</span>
+        <FileJson className="h-3 w-3 sm:h-4 sm:w-4" />
+        <span className="hidden xs:inline">PDF</span>
       </button>
     </div>
   );

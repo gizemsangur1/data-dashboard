@@ -18,30 +18,30 @@ export default function DataTable({ data, headers }: DataTableProps) {
   const currentData = data.slice(startIndex, endIndex);
 
   return (
-    <div className="bg-white rounded-lg shadow">
-      <div className="p-4 border-b">
-        <h2 className="text-xl font-semibold text-gray-800">Veri Önizleme</h2>
-        <p className="text-sm text-gray-700 mt-1">
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+      <div className="p-3 sm:p-4 border-b dark:border-gray-700">
+        <h2 className="text-base sm:text-xl font-semibold text-gray-800 dark:text-white">Veri Önizleme</h2>
+        <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-1">
           Toplam {data.length} satır, {headers.length} sütun
         </p>
       </div>
       
       <div className="overflow-x-auto">
-        <table className="min-w-full">
-          <thead className="bg-gray-50">
+        <table className="min-w-full text-xs sm:text-sm">
+          <thead className="bg-gray-50 dark:bg-gray-700">
             <tr>
               {headers.map((header, idx) => (
-                <th key={idx} className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
+                <th key={idx} className="px-3 sm:px-6 py-2 sm:py-3 text-left font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider whitespace-nowrap">
                   {header}
                 </th>
               ))}
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
             {currentData.map((row, rowIdx) => (
-              <tr key={rowIdx} className="hover:bg-gray-50 transition-colors">
+              <tr key={rowIdx} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                 {headers.map((header, colIdx) => (
-                  <td key={colIdx} className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  <td key={colIdx} className="px-3 sm:px-6 py-2 sm:py-4 whitespace-nowrap text-gray-900 dark:text-gray-300">
                     {row[header]?.toString() || '-'}
                   </td>
                 ))}
@@ -51,8 +51,8 @@ export default function DataTable({ data, headers }: DataTableProps) {
         </table>
       </div>
       
-      <div className="px-6 py-4 border-t flex items-center justify-between">
-        <div className="text-sm text-gray-700">
+      <div className="px-3 sm:px-6 py-3 sm:py-4 border-t dark:border-gray-700 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div className="text-xs sm:text-sm text-gray-700 dark:text-gray-300">
           <span className="font-medium">{startIndex + 1}</span> -{' '}
           <span className="font-medium">{Math.min(endIndex, data.length)}</span> /{' '}
           <span className="font-medium">{data.length}</span> kayıt
@@ -61,19 +61,19 @@ export default function DataTable({ data, headers }: DataTableProps) {
           <button
             onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
             disabled={currentPage === 1}
-            className="px-3 py-1 border rounded-md disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors"
+            className="px-2 sm:px-3 py-1 border rounded-md disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
           >
-            <ChevronLeft className="w-4 h-4" />
+            <ChevronLeft className="w-3 h-3 sm:w-4 sm:h-4" />
           </button>
-          <span className="px-3 py-1 text-sm">
-            Sayfa {currentPage} / {totalPages}
+          <span className="px-2 sm:px-3 py-1 text-xs sm:text-sm">
+            {currentPage} / {totalPages}
           </span>
           <button
             onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
             disabled={currentPage === totalPages}
-            className="px-3 py-1 border rounded-md disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors"
+            className="px-2 sm:px-3 py-1 border rounded-md disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
           >
-            <ChevronRight className="w-4 h-4" />
+            <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4" />
           </button>
         </div>
       </div>
