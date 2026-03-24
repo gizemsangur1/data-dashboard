@@ -234,7 +234,7 @@ export default function Charts({ data, xColumn, yColumn, correlation }: ChartsPr
             }`}
           >
             <LineChartIcon className="h-3 w-3 sm:h-4 sm:w-4" />
-            <span>Line</span>
+            <span>Line2</span>
           </button>
           <button
             onClick={() => setChartType('scatter')}
