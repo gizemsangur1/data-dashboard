@@ -6,22 +6,26 @@ import DataTable from '@/components/DataTable';
 import StatisticsPanel from '@/components/StatisticsPanel';
 import Charts from '@/components/Charts';
 import ThemeToggle from '@/components/ThemeToggle';
+import ColumnFilter from '@/components/ColumnFilter';
 import { calculateStatistics, calculateCorrelation } from '@/utils/statistics';
 import { Statistics } from '@/utils/types';
+import ExportButtons from '@/components/ExportButtons';
 
 interface DataRow {
   [key: string]: string | number;
 }
 
 export default function Home() {
-  const [data, setData] = useState<DataRow[]>([]);
+  const [originalData, setOriginalData] = useState<DataRow[]>([]);
+  const [filteredData, setFilteredData] = useState<DataRow[]>([]);
   const [headers, setHeaders] = useState<string[]>([]);
   const [stats, setStats] = useState<Statistics[]>([]);
   const [selectedXColumn, setSelectedXColumn] = useState<string>('');
   const [selectedYColumn, setSelectedYColumn] = useState<string>('');
 
   const handleDataLoaded = (loadedData: DataRow[], loadedHeaders: string[]) => {
-    setData(loadedData);
+    setOriginalData(loadedData);
+    setFilteredData(loadedData);
     setHeaders(loadedHeaders);
     
     const calculatedStats = calculateStatistics(loadedData, loadedHeaders);
@@ -43,8 +47,12 @@ export default function Home() {
     }
   };
 
+  const handleFilter = (filtered: DataRow[]) => {
+    setFilteredData(filtered);
+  };
+
   const correlation = selectedXColumn && selectedYColumn && selectedXColumn !== selectedYColumn
-    ? calculateCorrelation(data, selectedXColumn, selectedYColumn)
+    ? calculateCorrelation(filteredData, selectedXColumn, selectedYColumn)
     : 0;
 
   const numericColumns = stats.filter(s => s.mean !== undefined).map(s => s.column);
@@ -64,16 +72,28 @@ export default function Home() {
           <ThemeToggle />
         </div>
         
-        {data.length === 0 ? (
+        {originalData.length === 0 ? (
           <div className="max-w-2xl mx-auto">
             <FileUploader onDataLoaded={handleDataLoaded} />
           </div>
         ) : (
           <div className="space-y-8">
-            <div className="bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 rounded-lg p-4">
-              <p className="text-green-700 dark:text-green-400">
-                ✅ {data.length} satır ve {headers.length} sütun başarıyla yüklendi!
-              </p>
+            <div className="flex justify-between items-center">
+              <div className="bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 rounded-lg p-4">
+                <p className="text-green-700 dark:text-green-400">
+                  {filteredData.length} / {originalData.length} satır gösteriliyor
+                </p>
+              </div>
+                  <ExportButtons 
+      data={filteredData} 
+      stats={stats} 
+      filename={`veri_analiz_${new Date().toISOString().slice(0,19)}`} 
+    />
+              <ColumnFilter 
+                data={originalData} 
+                columns={headers} 
+                onFilter={handleFilter} 
+              />
             </div>
             
             {numericColumns.length >= 2 && (
@@ -114,7 +134,7 @@ export default function Home() {
             
             {selectedXColumn && selectedYColumn && (
               <Charts 
-                data={data}
+                data={filteredData}
                 xColumn={selectedXColumn}
                 yColumn={selectedYColumn}
                 correlation={correlation}
@@ -123,7 +143,7 @@ export default function Home() {
             
             {stats.length > 0 && <StatisticsPanel stats={stats} />}
             
-            <DataTable data={data} headers={headers} />
+            <DataTable data={filteredData} headers={headers} />
           </div>
         )}
       </div>
