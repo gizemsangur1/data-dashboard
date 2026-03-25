@@ -13,6 +13,8 @@ import MissingDataHandler from '@/components/MissingDataHandler';
 import OutlierDetector from '@/components/OutlierDetector';
 import { calculateStatistics, calculateCorrelation } from '@/utils/statistics';
 import { Statistics } from '@/utils/types';
+import CategoricalEncoder from '@/components/CategoricalEncoder';
+import DataTransformer from '@/components/DataTransformer';
 
 interface DataRow {
   [key: string]: string | number;
@@ -100,18 +102,26 @@ export default function Home() {
     );
   }
 
-  const preprocessingComponent = (
-    <div className="flex flex-wrap gap-3">
-      <MissingDataHandler 
-        data={originalData} 
-        onDataUpdate={handleDataUpdate} 
-      />
-      <OutlierDetector
-        data={originalData} 
-        onDataUpdate={handleDataUpdate} 
-      />
-    </div>
-  );
+const preprocessingComponent = (
+  <div className="flex flex-wrap gap-3">
+    <MissingDataHandler 
+      data={originalData} 
+      onDataUpdate={handleDataUpdate} 
+    />
+    <OutlierDetector 
+      data={originalData} 
+      onDataUpdate={handleDataUpdate} 
+    />
+    <DataTransformer
+      data={originalData} 
+      onDataUpdate={handleDataUpdate} 
+    />
+    <CategoricalEncoder 
+      data={originalData} 
+      onDataUpdate={handleDataUpdate} 
+    />
+  </div>
+);
 
   const filtersComponent = (
     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
