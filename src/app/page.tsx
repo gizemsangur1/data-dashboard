@@ -9,6 +9,8 @@ import ThemeToggle from '@/components/ThemeToggle';
 import ColumnFilter from '@/components/ColumnFilter';
 import ExportButtons from '@/components/ExportButtons';
 import DashboardLayout from '@/components/DashboardLayout';
+import MissingDataHandler from '@/components/MissingDataHandler';
+import OutlierDetector from '@/components/OutlierDetector';
 import { calculateStatistics, calculateCorrelation } from '@/utils/statistics';
 import { Statistics } from '@/utils/types';
 
@@ -48,6 +50,23 @@ export default function Home() {
     }
   };
 
+  const handleDataUpdate = (newData: DataRow[]) => {
+    setOriginalData(newData);
+    setFilteredData(newData);
+    
+    const calculatedStats = calculateStatistics(newData, headers);
+    setStats(calculatedStats);
+    
+    const numericColumns = calculatedStats
+      .filter(s => s.mean !== undefined)
+      .map(s => s.column);
+    
+    if (numericColumns.length >= 2) {
+      setSelectedXColumn(numericColumns[0]);
+      setSelectedYColumn(numericColumns[1]);
+    }
+  };
+
   const handleFilter = (filtered: DataRow[]) => {
     setFilteredData(filtered);
   };
@@ -81,6 +100,19 @@ export default function Home() {
     );
   }
 
+  const preprocessingComponent = (
+    <div className="flex flex-wrap gap-3">
+      <MissingDataHandler 
+        data={originalData} 
+        onDataUpdate={handleDataUpdate} 
+      />
+      <OutlierDetector
+        data={originalData} 
+        onDataUpdate={handleDataUpdate} 
+      />
+    </div>
+  );
+
   const filtersComponent = (
     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
       <div className="bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 rounded-lg p-3">
@@ -88,7 +120,7 @@ export default function Home() {
           {filteredData.length} / {originalData.length} satır gösteriliyor
         </p>
       </div>
-      <div className="flex gap-3">
+      <div className="flex gap-3 flex-wrap">
         <ExportButtons 
           data={filteredData} 
           stats={stats} 
@@ -170,6 +202,7 @@ export default function Home() {
         </div>
         
         <DashboardLayout 
+          preprocessing={preprocessingComponent}
           filters={filtersComponent}
           stats={statsComponent}
           charts={chartsComponent}
