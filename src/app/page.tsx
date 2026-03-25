@@ -17,6 +17,8 @@ import CategoricalEncoder from '@/components/CategoricalEncoder';
 import DataTransformer from '@/components/DataTransformer';
 import DistributionAnalyzer from '@/components/DistributionAnalyzer';
 import CorrelationMatrix from '@/components/CorrelationMatrix';
+import StatisticalTests from '@/components/StatisticalTests';
+import TimeSeriesAnalyzer from '@/components/TimeSeriesAnalyzer';
 
 interface DataRow {
   [key: string]: string | number;
@@ -104,10 +106,12 @@ export default function Home() {
     );
   }
 
-  const analyticsComponent = (
+const analyticsComponent = (
   <div className="flex flex-wrap gap-3">
     <DistributionAnalyzer data={originalData} />
     <CorrelationMatrix data={originalData} />
+    <StatisticalTests data={originalData} />
+    <TimeSeriesAnalyzer data={originalData} />
   </div>
 );
 
