@@ -28,19 +28,28 @@ interface Widget {
 
 interface DashboardLayoutProps {
   preprocessing: React.ReactNode;
+  analytics: React.ReactNode;
   filters: React.ReactNode;
   stats: React.ReactNode;
   charts: React.ReactNode;
   table: React.ReactNode;
 }
 
-export default function DashboardLayout({ preprocessing, filters, stats, charts, table }: DashboardLayoutProps) {
+export default function DashboardLayout({ 
+  preprocessing, 
+  analytics,
+  filters, 
+  stats, 
+  charts, 
+  table 
+}: DashboardLayoutProps) {
   const [widgets, setWidgets] = useState<Widget[]>([
-    { id: 'preprocessing', title: 'Veri Ön İşleme', component: preprocessing, visible: true },
-    { id: 'filters', title: 'Filtreler ve Dışa Aktar', component: filters, visible: true },
-    { id: 'stats', title: 'İstatistiksel Özet', component: stats, visible: true },
-    { id: 'charts', title: 'Veri Görselleştirme', component: charts, visible: true },
-    { id: 'table', title: 'Veri Tablosu', component: table, visible: true },
+    { id: 'preprocessing', title: '🔧 Veri Ön İşleme', component: preprocessing, visible: true },
+    { id: 'analytics', title: '📊 İleri Analiz', component: analytics, visible: true },
+    { id: 'filters', title: '🔍 Filtreler ve Dışa Aktar', component: filters, visible: true },
+    { id: 'stats', title: '📈 İstatistiksel Özet', component: stats, visible: true },
+    { id: 'charts', title: '📉 Veri Görselleştirme', component: charts, visible: true },
+    { id: 'table', title: '📋 Veri Tablosu', component: table, visible: true },
   ]);
 
   const sensors = useSensors(

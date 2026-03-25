@@ -131,10 +131,7 @@ const detectOutliers = (col: string) => {
                 <>
                   <div className={`p-4 rounded-lg ${outlierCount > 0 ? 'bg-red-50 dark:bg-red-900/30' : 'bg-green-50 dark:bg-green-900/30'}`}>
                     <p className={`text-sm ${outlierCount > 0 ? 'text-red-700 dark:text-red-400' : 'text-green-700 dark:text-green-400'}`}>
-                      {outlierCount > 0 
-                        ? `⚠️ ${outlierCount} aykırı değer tespit edildi (${((outlierCount / data.length) * 100).toFixed(1)}%)`
-                        : `✅ Aykırı değer tespit edilmedi`
-                      }
+                      {outlierCount > 0 ? 'Aykırı değer var' : 'Aykırı değer yok'}
                     </p>
                   </div>
 

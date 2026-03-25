@@ -15,6 +15,8 @@ import { calculateStatistics, calculateCorrelation } from '@/utils/statistics';
 import { Statistics } from '@/utils/types';
 import CategoricalEncoder from '@/components/CategoricalEncoder';
 import DataTransformer from '@/components/DataTransformer';
+import DistributionAnalyzer from '@/components/DistributionAnalyzer';
+import CorrelationMatrix from '@/components/CorrelationMatrix';
 
 interface DataRow {
   [key: string]: string | number;
@@ -102,6 +104,13 @@ export default function Home() {
     );
   }
 
+  const analyticsComponent = (
+  <div className="flex flex-wrap gap-3">
+    <DistributionAnalyzer data={originalData} />
+    <CorrelationMatrix data={originalData} />
+  </div>
+);
+
 const preprocessingComponent = (
   <div className="flex flex-wrap gap-3">
     <MissingDataHandler 
@@ -112,7 +121,7 @@ const preprocessingComponent = (
       data={originalData} 
       onDataUpdate={handleDataUpdate} 
     />
-    <DataTransformer
+    <DataTransformer 
       data={originalData} 
       onDataUpdate={handleDataUpdate} 
     />
@@ -211,13 +220,14 @@ const preprocessingComponent = (
           <ThemeToggle />
         </div>
         
-        <DashboardLayout 
-          preprocessing={preprocessingComponent}
-          filters={filtersComponent}
-          stats={statsComponent}
-          charts={chartsComponent}
-          table={tableComponent}
-        />
+            <DashboardLayout 
+        preprocessing={preprocessingComponent}
+        analytics={analyticsComponent}
+        filters={filtersComponent}
+        stats={statsComponent}
+        charts={chartsComponent}
+        table={tableComponent}
+      />
       </div>
     </main>
   );
